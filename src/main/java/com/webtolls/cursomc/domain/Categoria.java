@@ -1,11 +1,14 @@
 package com.webtolls.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Categoria implements Serializable {// SERIALIZABLE SIGUINIFICA QUE OS OBJETOS DA CLASS PODERAM SER  
@@ -19,6 +22,9 @@ public class Categoria implements Serializable {// SERIALIZABLE SIGUINIFICA QUE 
 	private Integer id;
 	
 	private String nome;
+	
+	@ManyToMany(mappedBy="categorias") // esta pegando o mesmo mapeamento do atributo categorias da class Produto
+	private List<Produto> produtos = new ArrayList<>();// uma categoria tem varios produtos
 	
 	public Categoria() {
 		
@@ -44,6 +50,14 @@ public class Categoria implements Serializable {// SERIALIZABLE SIGUINIFICA QUE 
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	@Override // PARA QUE DOIS OBJETOS SEJA COMPARADOS PELO SEU CONTÚDO E NÃO PELO PONTEIRO DE MEMÓRIA
@@ -73,6 +87,8 @@ public class Categoria implements Serializable {// SERIALIZABLE SIGUINIFICA QUE 
 			return false;
 		return true;
 	}
+
+	
 	
 	
 }
