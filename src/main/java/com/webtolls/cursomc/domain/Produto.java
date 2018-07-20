@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 public class Produto  implements Serializable{// SERIALIZABLE SIGUINIFICA QUE OS OBJETOS DA CLASS PODERAM SER  
@@ -26,6 +28,8 @@ public class Produto  implements Serializable{// SERIALIZABLE SIGUINIFICA QUE OS
 	private String nome;
 	private double preco;
 	
+	@JsonBackReference// faz o seguinte, do outro lado da associação @JsonManagedReference ja foram buscados os objetos
+					  // então eu não preciso buscar mais
 	@ManyToMany // relacionamento muitos p muitos 
 	@JoinTable(name = "PRODUTO_CATEGORIA", // Nome da tabela intermediária 
 		joinColumns = @JoinColumn(name = "produto_id"), // chave extrangeira de produto

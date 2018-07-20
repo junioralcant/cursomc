@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.webtolls.cursomc.domain.Categoria;
 import com.webtolls.cursomc.repositories.CategoriaRepository;
+import com.webtolls.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -16,6 +17,7 @@ public class CategoriaService {
 	
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException( //ObjectNotFoundException vem do pacote com.webtolls.cursomc.services.exceptions.
+					"Objeto não encontrado! Id: " + id + ", Tipo" +Categoria.class.getName()));
 	}
 }
