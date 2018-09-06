@@ -10,10 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.webtolls.cursomc.domain.Categoria;
 import com.webtolls.cursomc.domain.Cidade;
+import com.webtolls.cursomc.domain.Cliente;
+import com.webtolls.cursomc.domain.Endereco;
 import com.webtolls.cursomc.domain.Estado;
 import com.webtolls.cursomc.domain.Produto;
+import com.webtolls.cursomc.domain.enums.TipoCliente;
 import com.webtolls.cursomc.repositories.CategoriaRepository;
 import com.webtolls.cursomc.repositories.CidadeRepository;
+import com.webtolls.cursomc.repositories.ClienteRepository;
+import com.webtolls.cursomc.repositories.EnderecoRepository;
 import com.webtolls.cursomc.repositories.EstadoRepository;
 import com.webtolls.cursomc.repositories.ProdutoRepository;
 
@@ -31,6 +36,12 @@ public class CursomcApplication implements CommandLineRunner  {
 	
 	@Autowired
 	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -71,6 +82,17 @@ public class CursomcApplication implements CommandLineRunner  {
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3)); // salva uma lista de objetos de cidade no banco de dados 
 		
 		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "345345345654", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("36391769", "36392787")); // adiciona dados ao telefone
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardin", "65470000", cli1, c1);
+		
+		Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro","784387584", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2)); // informando ao cliente seu endereço
+		
+		clienteRepository.saveAll(Arrays.asList(cli1)); //savando cliente nobanco
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));// salvando cliente no banco
 	}
 	
 	//CommandLineRunner: uma interface que permite chamar o metodos run que permite executar uma ação desejada 
